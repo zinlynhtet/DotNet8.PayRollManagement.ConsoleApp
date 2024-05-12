@@ -18,9 +18,11 @@ void MainMenu()
 {
     Console.WriteLine("PayRoll Management System.");
     Console.WriteLine("1. Add Employee");
-    Console.WriteLine("2. Employee Details");
+    Console.WriteLine("2. View Employee Details");
     Console.WriteLine("3. Calculate PayRoll");
-    Console.WriteLine("4. Exit the Program");
+    Console.WriteLine("4. Find Employee");
+    Console.WriteLine("5. Update Hours and Calculate PayRoll");
+    Console.WriteLine("6. Exit the Program");
 
     int input = Console.ReadLine()!.ToInt();
     switch (input)
@@ -35,6 +37,12 @@ void MainMenu()
             CalculatePayRoll();
             break;
         case 4:
+            FindEmployee();
+            break;
+        case 5:
+            UpdateHoursAndCalculatePayroll();
+            break;
+        case 6:
             Environment.Exit(0);
             break;
         default:
@@ -43,7 +51,6 @@ void MainMenu()
             break;
     }
 }
-
 
 void AddEmployee()
 {
@@ -116,4 +123,39 @@ void CalculatePayRoll()
     Console.WriteLine(table.ToString());
     MainMenu();
 }
+void FindEmployee()
+{
+    Console.Write("Enter Employee ID: ");
+    int id = Console.ReadLine()!.ToInt();
+    var item = employees.FirstOrDefault(e => e.Id == id)!;
+    if (item is null)
+    {
+        Console.WriteLine("Employee not found.");
+    }
 
+    Console.WriteLine("Employee Found:");
+    Console.WriteLine($"ID: {item!.Id}");
+    Console.WriteLine($"Name: {item.Name}");
+    Console.WriteLine($"Hourly Rate: {item.HourlyRate}");
+    Console.WriteLine($"Hours Worked: {item.HoursWorked}");
+    Console.WriteLine($"Total Pay: {item.CalculatePay()}$");
+    MainMenu();
+}
+
+void UpdateHoursAndCalculatePayroll()
+{
+    Console.Write("Enter Employee ID: ");
+    int id = Console.ReadLine()!.ToInt();
+    var employee = employees.FirstOrDefault(e => e.Id == id)!;
+    if (employee is null)
+    {
+        Console.WriteLine("Employee not found.");
+    }
+    Console.Write($"Enter Worked Hours for {employee!.Name}: ");
+    double hoursWorked = Console.ReadLine()!.ToDouble();
+    employee.HoursWorked = hoursWorked;
+
+    Console.WriteLine($"Total Pay for {employee.Name}: {employee.CalculatePay()}$");
+
+    MainMenu();
+}
