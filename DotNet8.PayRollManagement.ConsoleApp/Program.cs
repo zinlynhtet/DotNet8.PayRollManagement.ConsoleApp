@@ -15,39 +15,43 @@ MainMenu();
 
 void MainMenu()
 {
-    Console.WriteLine("PayRoll Management System.");
-    Console.WriteLine("1. Add Employee");
-    Console.WriteLine("2. View Employee Details");
-    Console.WriteLine("3. Calculate PayRoll");
-    Console.WriteLine("4. Find Employee");
-    Console.WriteLine("5. Update Hours and Calculate PayRoll");
-    Console.WriteLine("6. Exit the Program");
-
-    var input = Console.ReadLine()!.ToInt();
-    switch (input)
+    while (true)
     {
-        case 1:
-            AddEmployee();
-            break;
-        case 2:
-            ViewList();
-            break;
-        case 3:
-            CalculatePayRoll();
-            break;
-        case 4:
-            FindEmployee();
-            break;
-        case 5:
-            UpdateHoursAndCalculatePayroll();
-            break;
-        case 6:
-            Environment.Exit(0);
-            break;
-        default:
-            Console.WriteLine("Invalid option. Please select a valid option.");
-            MainMenu();
-            break;
+        Console.WriteLine("PayRoll Management System.");
+        Console.WriteLine("1. Add Employee");
+        Console.WriteLine("2. View Employee Details");
+        Console.WriteLine("3. Calculate PayRoll");
+        Console.WriteLine("4. Find Employee");
+        Console.WriteLine("5. Update Hours and Calculate PayRoll");
+        Console.WriteLine("6. Exit the Program");
+
+        var input = Console.ReadLine()!.ToInt();
+        switch (input)
+        {
+            case 1:
+                AddEmployee();
+                break;
+            case 2:
+                ViewList();
+                break;
+            case 3:
+                CalculatePayRoll();
+                break;
+            case 4:
+                FindEmployee();
+                break;
+            case 5:
+                UpdateHoursAndCalculatePayroll();
+                break;
+            case 6:
+                Environment.Exit(0);
+                break;
+            default:
+                Console.WriteLine("Invalid option. Please select a valid option.");
+                continue;
+        }
+
+        break;
     }
 }
 
@@ -92,7 +96,7 @@ void CalculatePayRoll()
         return;
     }
 
-    foreach (Employee employee in employees)
+    foreach (var employee in employees)
     {
         Console.Write($"Enter Worked Hours for {employee.Name}: ");
         employee.HoursWorked = Console.ReadLine()!.ToDouble();
@@ -113,9 +117,9 @@ void CalculatePayRoll()
     };
     double totalAmount = 0;
 
-    foreach (Employee employee in employees)
+    foreach (var employee in employees)
     {
-        double totalPay = employee.CalculatePay();
+        var totalPay = employee.CalculatePay();
         totalAmount += totalPay;
         table.AddRow(employee.Id, employee.Name, employee.HourlyRate, employee.HoursWorked, totalPay);
     }
