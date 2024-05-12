@@ -1,6 +1,5 @@
-﻿
-using DotNet8.PayRollManagement.ConsoleApp;
-
+﻿using DotNet8.PayRollManagement.ConsoleApp;
+using BetterConsoleTables;
 var employees = new List<Employee>()
         {
             new Employee(1, "Doe", 25.50, 40),
@@ -31,6 +30,12 @@ void MainMenu()
             break;
         case 2:
             ViewList();
+            break;
+        case 3:
+            CalculatePayRoll();
+            break;
+        case 4:
+            Environment.Exit(0);
             break;
         default:
             Console.WriteLine("Invalid option. Please select a valid option.");
@@ -71,3 +76,44 @@ void ViewList()
     }
     MainMenu();
 }
+
+void CalculatePayRoll()
+{
+    if (employees.Count == 0)
+    {
+        Console.WriteLine("No Data Found.");
+        MainMenu();
+        return;
+    }
+
+    foreach (Employee employee in employees)
+    {
+        Console.Write($"Enter Worked Hours for {employee.Name}: ");
+        employee.HoursWorked = Console.ReadLine()!.ToDouble();
+    }
+
+    ColumnHeader[] headers = new[]
+    {
+        new ColumnHeader("ID"),
+        new ColumnHeader("Name"),
+        new ColumnHeader("Hourly Rate", Alignment.Right),
+        new ColumnHeader("Hours Worked", Alignment.Right),
+        new ColumnHeader("Total Pay", Alignment.Right),
+    };
+
+    Table table = new Table(headers);
+    table.Config = TableConfiguration.UnicodeAlt();
+    double totalAmount = 0;
+
+    foreach (Employee employee in employees)
+    {
+        double totalPay = employee.CalculatePay();
+        totalAmount += totalPay;
+        table.AddRow(employee.Id, employee.Name, employee.HourlyRate, employee.HoursWorked, totalPay);
+    }
+
+    table.AddRow("", "", "", "Total : ", "$ " + totalAmount);
+    Console.WriteLine(table.ToString());
+    MainMenu();
+}
+
