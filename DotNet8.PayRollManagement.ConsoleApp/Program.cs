@@ -29,6 +29,9 @@ void MainMenu()
         case 1:
             AddEmployee();
             break;
+        case 2:
+            ViewList();
+            break;
         default:
             Console.WriteLine("Invalid option. Please select a valid option.");
             MainMenu();
@@ -53,5 +56,18 @@ void AddEmployee()
     employees.Add(employee);
 
     Console.WriteLine("Employee added successfully.");
+    MainMenu();
+}
+
+void ViewList()
+{
+    if (employees.Count == 0) Console.WriteLine("No Data Found.");
+    else Console.WriteLine("Lists");
+    foreach (Employee employee in employees)
+    {
+        Console.WriteLine($"Id : {employee.Id}," +
+            $" Name : {employee.Name}," +
+            $" HourlyRate : {employee.HourlyRate}");
+    }
     MainMenu();
 }
